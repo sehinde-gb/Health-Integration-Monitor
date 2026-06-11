@@ -6,7 +6,7 @@ import { Post } from '../models/post';
 
 export const postResolver: ResolveFn<Post | null> = (route: ActivatedRouteSnapshot) => {
   /*
-  Decision points: Invalid Id, Valid id + service success & Valid id + service error
+  Decision points: Invalid Id, Valid id + service success & invalid id + service error
   */
   const postService = inject(PostService);
   const router = inject(Router);

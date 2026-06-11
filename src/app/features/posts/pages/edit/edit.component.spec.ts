@@ -126,6 +126,8 @@ describe('EditComponent (container, resolver)', () => {
     expect(postServiceSpy.update).toHaveBeenCalledWith(1, expectedDto);
     expect(toastSpy.showSuccess).toHaveBeenCalled();
     expect(routerSpy.navigateByUrl).toHaveBeenCalledWith('/post/index');
+
+
   });
 
   it('does navigate back when form clean', () => {
