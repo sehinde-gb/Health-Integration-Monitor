@@ -38,8 +38,30 @@ export class EditComponent {
 
     // 2) Init form
     this.form = new FormGroup({
-      title: new FormControl('', { nonNullable: true, validators:[Validators.required]}),
-      body: new FormControl('', { nonNullable: true, validators:[Validators.required]}),
+      patientId: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required]
+      }),
+
+      patientName: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required]
+      }),
+
+      messageType: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required]
+      }),
+
+      status: new FormControl<'Processed' | 'Failed' | 'Pending'>('Pending', {
+        nonNullable: true,
+        validators: [Validators.required]
+      }),
+
+      lastUpdated: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required]
+      })
     });
 
     if (!resolved) {
@@ -50,7 +72,13 @@ export class EditComponent {
     this.hasError.set(false);
      // We can assume this is an OK id retrieved from the Post object
     this.id = resolved.id; // from resolver
-    this.form.patchValue({ title: resolved.title, body: resolved.body});
+    this.form.patchValue({
+      patientId: resolved.patientId,
+      patientName: resolved.patientName,
+      messageType: resolved.messageType,
+      status: resolved.status,
+      lastUpdated: resolved.lastUpdated
+    });
     this.form.markAsPristine(); // so requireDirty works
 
   }
@@ -83,8 +111,11 @@ export class EditComponent {
     this.isSubmitting.set(true);
 
   const dto: UpdatePostDto = {
-    title: this.form.get('title')?.value ?? '',
-    body: this.form.get('body')?.value ?? ''
+    patientId: this.form.controls['patientId'].value,
+    patientName: this.form.controls['patientName'].value,
+    messageType: this.form.controls['messageType'].value,
+    status: this.form.controls['status'].value,
+    lastUpdated: this.form.controls['lastUpdated'].value
   };
 
   this.postService.update(this.id, dto)

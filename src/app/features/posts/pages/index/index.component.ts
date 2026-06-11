@@ -45,10 +45,20 @@ export class IndexComponent {
     }
 
     // success state
-    this.postList.set(posts);
-    this.hasError.set(false);
-  });
-}
+
+    const patientRecords: Post[] = posts.map((post, index) => ({
+        id: post.id,
+        patientId: `P-${String(post.id).padStart(5, '0')}`,
+        patientName: post.patientName ?? `Patient ${index + 1}`,
+        messageType: index % 3 === 0 ? 'ADT^A01' : index % 3 === 1 ? 'ORU^R01' : 'ADT^A03',
+        status: index % 5 === 0 ? 'Failed' : index % 2 === 0 ? 'Pending' : 'Processed',
+        lastUpdated: new Date().toISOString()
+      }));
+
+      this.postList.set(patientRecords);
+      this.hasError.set(false);
+    });
+  }
 
   // ✅ Use this for retry if you want resolver to re-run
   retry(): void {
@@ -73,7 +83,9 @@ export class IndexComponent {
 
   filteredPosts = computed(() =>
     this.postList().filter(post =>
-      post.title.toLowerCase().includes(this.searchTerm().toLowerCase())
+      post.patientName.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
+      post.patientId.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
+      post.messageType.toLowerCase().includes(this.searchTerm().toLowerCase())
     )
   );
 

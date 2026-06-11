@@ -28,9 +28,30 @@ export class CreateComponent {
   serverErrorMessage = signal<string | null>(null);
 
   form = new FormGroup({
-    title: new FormControl('', { nonNullable: true, validators: [Validators.required]}),
-    body: new FormControl('', { nonNullable: true, validators: [Validators.required]}),
+      patientId: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required]
+      }),
 
+      patientName: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required]
+      }),
+
+      messageType: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required]
+      }),
+
+      status: new FormControl<'Processed' | 'Failed' | 'Pending'>('Pending', {
+        nonNullable: true,
+        validators: [Validators.required]
+      }),
+
+      lastUpdated: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required]
+      })
   });
 
 
@@ -49,8 +70,11 @@ export class CreateComponent {
 
     //✅ Explicit DTO mapping (Phase 4.3.4)
     const dto: CreatePostDto = {
-      title: this.form.controls.title.value,
-      body: this.form.controls.body.value
+      patientId: this.form.controls.patientId.value,
+      patientName: this.form.controls.patientName.value,
+      messageType: this.form.controls.messageType.value,
+      status: this.form.controls.status.value,
+      lastUpdated: this.form.controls.lastUpdated.value,
     };
 
     this.postService.create(dto)

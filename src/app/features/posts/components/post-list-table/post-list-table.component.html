@@ -3,17 +3,22 @@
     <thead>
       <tr>
         <th>Id</th>
-        <th>Title</th>
-        <th>Post</th>
-        <th width="250px">Action</th>
+        <th>Patient Id</th>
+        <th>Patient Name</th>
+        <th>Message Type</th>
+        <th>Status</th>
+        <th>Last Updated</th>
+        <th width="250px">Actions</th>
       </tr>
     </thead>
     <tbody>
         @for (post of posts(); track post.id) {
           <tr>
-            <td>{{post.id}}</td>
-            <td>{{post.title}}</td>
-            <td>{{post.body}}</td>
+            <td>{{post.patientId}}</td>
+            <td>{{post.patientName}}</td>
+            <td>{{post.messageType}}</td>
+            <td>{{post.status}}</td>
+            <td>{{post.lastUpdated}}</td>
             <td>
               <a [routerLink]="['/post/',post.id,'view']" class="btn btn-info">View</a>
               <a [routerLink]="['/post', post.id, 'edit']" class="btn btn-primary">Edit</a>
@@ -23,7 +28,7 @@
         } @empty {
           <tr>
             <td colspan="4" class="text-center">
-              <p class="mb-0">No posts found</p>
+              <p class="mb-0">No patient records found</p>
             </td>
           </tr>
         }

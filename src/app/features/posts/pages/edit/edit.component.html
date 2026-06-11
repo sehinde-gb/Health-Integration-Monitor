@@ -1,18 +1,18 @@
 <div class="container">
-  <h1 class="text-center">Update Post here.. ☺</h1>
+  <h1 class="text-center">Update Patient Record here.. ☺</h1>
 
   <button type="button" class="btn btn-warning" (click)="goBack()">Back</button>
 
   @if (loadingService.isLoading()) {
     <div class="text-center">
       <div class="spinner-border text-primary"></div>
-      <p>Fetching post details</p>
+      <p>Fetching patient record details</p>
     </div>
 
   } @else {
     @if (hasError()) {
       <div class="alert alert-danger">
-        <p>We couldn't load this post.</p>
+        <p>We couldn't load this patient record.</p>
         <button class="btn btn-outline-danger" type="button" (click)="retry()">
           Retry
         </button>
@@ -22,7 +22,7 @@
       <app-post-form
         [form]="form"
         [isSubmitting]="isSubmitting()"
-        submitLabel="Update Post"
+        submitLabel="Update Patient Record"
         [requireDirty]="true"
         (submitForm)="submit()"
       />
