@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Post } from '../../models/post';
 import { PostService } from '../../services/post.service';
@@ -18,7 +18,7 @@ export class IndexComponent {
   // ✅ template calls postList() and hasError()
   postList = signal<Post[]>([]);
   hasError = signal(false);
-
+  totalPosts = computed(() => this.postList().length);
   public loadingService = inject(GlobalLoadingService);
 
   private route = inject(ActivatedRoute);

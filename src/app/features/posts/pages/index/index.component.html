@@ -15,6 +15,7 @@
 
 
       }  @else {
+        <p>Total posts: {{ totalPosts() }}</p>
         <app-post-list-table
           [posts]="postList()"
           (deletePost)="deletePost($event)"
