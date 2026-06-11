@@ -9,7 +9,7 @@
       </tr>
     </thead>
     <tbody>
-        @for (post of posts; track post.id) {
+        @for (post of posts(); track post.id) {
           <tr>
             <td>{{post.id}}</td>
             <td>{{post.title}}</td>
