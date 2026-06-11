@@ -16,6 +16,43 @@
 
       }  @else {
           <p>Total records: {{ totalPosts() }}</p>
+          <div class="row my-3">
+            <div class="col-md-3">
+              <div class="card text-center">
+                <div class="card-body">
+                  <h5>Total</h5>
+                  <p class="display-6">{{ totalRecords() }}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="card text-center">
+                <div class="card-body">
+                  <h5>Processed</h5>
+                  <p class="display-6">{{ processedCount() }}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="card text-center">
+                <div class="card-body">
+                  <h5>Pending</h5>
+                  <p class="display-6">{{ pendingCount() }}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="card text-center">
+                <div class="card-body">
+                  <h5>Failed</h5>
+                  <p class="display-6">{{ failedCount() }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <input
             type="text"

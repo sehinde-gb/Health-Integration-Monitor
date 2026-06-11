@@ -19,6 +19,10 @@ export class IndexComponent {
   postList = signal<Post[]>([]);
   hasError = signal(false);
   totalPosts = computed(() => this.postList().length);
+  totalRecords = computed(() => this.filteredPosts().length);
+  processedCount = computed(() => this.filteredPosts().filter(record => record.status === 'Processed').length);
+  pendingCount = computed(() => this.filteredPosts().filter(record => record.status === 'Pending').length);
+  failedCount = computed(() => this.filteredPosts().filter(record => record.status === 'Failed').length);
   public loadingService = inject(GlobalLoadingService);
 
   private route = inject(ActivatedRoute);
