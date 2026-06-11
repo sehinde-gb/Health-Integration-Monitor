@@ -1,5 +1,5 @@
 <div class="container">
-  <h1 class="text-center">Angular 17 CRUD Application</h1>
+  <h1 class="text-center">Angular 20 CRUD Application</h1>
   <a routerLink="/post/create/" class="btn btn-success">Create Post</a>
 
 
@@ -15,11 +15,20 @@
 
 
       }  @else {
-        <p>Total posts: {{ totalPosts() }}</p>
-        <app-post-list-table
-          [posts]="postList()"
-          (deletePost)="deletePost($event)"
-        />
+          <p>Total posts: {{ totalPosts() }}</p>
+
+          <input
+            type="text"
+            class="form-control mb-3"
+            placeholder="Search posts..."
+            [value]="searchTerm()"
+            (input)="searchTerm.set($any($event.target).value)"
+          />
+
+          <app-post-list-table
+            [posts]="filteredPosts()"
+            (deletePost)="deletePost($event)"
+          />
       }
 
 </div>

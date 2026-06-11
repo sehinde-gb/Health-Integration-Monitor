@@ -68,4 +68,13 @@ export class IndexComponent {
     this.auth.logout();
     this.router.navigate(['/auth/login']);
   }
+
+  searchTerm = signal('');
+
+  filteredPosts = computed(() =>
+    this.postList().filter(post =>
+      post.title.toLowerCase().includes(this.searchTerm().toLowerCase())
+    )
+  );
+
 }
