@@ -3,11 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-post-form',
-  standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
-  templateUrl: './post-form.component.html',
-  styleUrl: './post-form.component.css'
+    selector: 'app-post-form',
+    imports: [ReactiveFormsModule, CommonModule],
+    templateUrl: './post-form.component.html',
+    styleUrl: './post-form.component.css'
 })
 export class PostFormComponent {
 

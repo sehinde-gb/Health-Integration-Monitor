@@ -11,11 +11,10 @@ import { PostFormComponent } from "../../components/post-form/post-form.componen
 
 
 @Component({
-  selector: 'app-create',
-  standalone: true,
-  imports: [CommonModule, PostFormComponent],
-  templateUrl: './create.component.html',
-  styleUrl: './create.component.css'
+    selector: 'app-create',
+    imports: [CommonModule, PostFormComponent],
+    templateUrl: './create.component.html',
+    styleUrl: './create.component.css'
 })
 
 export class CreateComponent {

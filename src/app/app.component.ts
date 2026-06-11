@@ -7,10 +7,9 @@ import { HeaderComponent } from './shared/layout/header/header.component';
 
 @Component({
     selector: 'app-root',
-    standalone: true,
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
-    imports: [CommonModule, RouterOutlet,ToastComponent, HeaderComponent ]
+    imports: [CommonModule, RouterOutlet, ToastComponent, HeaderComponent]
 })
 export class AppComponent {
   title = 'crudv17';

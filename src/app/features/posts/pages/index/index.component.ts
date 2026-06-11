@@ -9,11 +9,10 @@ import { ToastService } from '../../../../shared/services/toast.service';
 import { PostListTableComponent } from '../../components/post-list-table/post-list-table.component';
 
 @Component({
-  selector: 'app-index',
-  standalone: true,
-  imports: [CommonModule, RouterModule, PostListTableComponent],
-  templateUrl: './index.component.html',
-  styleUrl: './index.component.css',
+    selector: 'app-index',
+    imports: [CommonModule, RouterModule, PostListTableComponent],
+    templateUrl: './index.component.html',
+    styleUrl: './index.component.css'
 })
 export class IndexComponent {
   // ✅ template calls postList() and hasError()

@@ -5,11 +5,10 @@ import { Post } from "../../models/post";
 
 
 @Component({
-  selector: 'app-post-list-table',
-  standalone: true,
-  imports: [CommonModule, RouterModule],
-  templateUrl: './post-list-table.component.html',
-  styleUrl: './post-list-table.component.css'
+    selector: 'app-post-list-table',
+    imports: [CommonModule, RouterModule],
+    templateUrl: './post-list-table.component.html',
+    styleUrl: './post-list-table.component.css'
 })
 export class PostListTableComponent {
   // Inputs (data)

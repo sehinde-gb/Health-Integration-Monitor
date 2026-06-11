@@ -7,11 +7,10 @@ import { Post } from '../../models/post';
 import { PostDetailsCardComponent } from '../../components/post-details-card/post-details-card.component';
 
 @Component({
-  selector: 'app-view',
-  standalone: true,
-  imports: [RouterModule, CommonModule, PostDetailsCardComponent],
-  templateUrl: './view.component.html',
-  styleUrl: './view.component.css'
+    selector: 'app-view',
+    imports: [RouterModule, CommonModule, PostDetailsCardComponent],
+    templateUrl: './view.component.html',
+    styleUrl: './view.component.css'
 })
 export class ViewComponent {
   public loadingService = inject(GlobalLoadingService);

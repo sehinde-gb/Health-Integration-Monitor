@@ -2,11 +2,10 @@ import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-forbidden',
-  standalone: true,
-  imports: [RouterModule],
-  templateUrl: './forbidden.component.html',
-  styleUrl: './forbidden.component.css',
+    selector: 'app-forbidden',
+    imports: [RouterModule],
+    templateUrl: './forbidden.component.html',
+    styleUrl: './forbidden.component.css'
 })
 export class ForbiddenComponent {
   private route = inject(ActivatedRoute);

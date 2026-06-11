@@ -12,11 +12,10 @@ import { PostFormComponent } from '../../components/post-form/post-form.componen
 import { Post } from '../../models/post';
 
 @Component({
-  selector: 'app-edit',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, PostFormComponent],
-  templateUrl: './edit.component.html',
-  styleUrl: './edit.component.css'
+    selector: 'app-edit',
+    imports: [CommonModule, ReactiveFormsModule, PostFormComponent],
+    templateUrl: './edit.component.html',
+    styleUrl: './edit.component.css'
 })
 export class EditComponent {
 
