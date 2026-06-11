@@ -1,6 +1,6 @@
 <div class="container">
-  <h1 class="text-center">Angular 20 CRUD Application</h1>
-  <a routerLink="/post/create/" class="btn btn-success">Create Post</a>
+  <h1 class="text-center">Health Integration Monitor</h1>
+  <a routerLink="/post/create/" class="btn btn-success">Create Patient Record</a>
 
 
       @if(loadingService.isLoading() && postList().length === 0) {
@@ -15,12 +15,12 @@
 
 
       }  @else {
-          <p>Total posts: {{ totalPosts() }}</p>
+          <p>Total records: {{ totalPosts() }}</p>
 
           <input
             type="text"
             class="form-control mb-3"
-            placeholder="Search posts..."
+            placeholder="Search patient records..."
             [value]="searchTerm()"
             (input)="searchTerm.set($any($event.target).value)"
           />
