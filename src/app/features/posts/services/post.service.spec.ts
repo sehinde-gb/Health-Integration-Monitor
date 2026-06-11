@@ -1,10 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { environment } from '../../../../environments/environment';
 import { PostService } from './post.service';
 import { Post } from '../models/post';
 import { CreatePostDto } from '../models/post.dto';
 import { UpdatePostDto } from '../models/post.dto';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('PostService', () => {
   // Test variables
@@ -14,9 +15,9 @@ describe('PostService', () => {
   // TestBed setup runs before each test
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [PostService],
-    });
+    imports: [],
+    providers: [PostService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
 
     service = TestBed.inject(PostService);
     httpMock = TestBed.inject(HttpTestingController);
