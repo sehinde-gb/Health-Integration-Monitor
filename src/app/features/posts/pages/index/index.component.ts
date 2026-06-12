@@ -73,7 +73,7 @@ export class IndexComponent {
     this.postService.delete(id).subscribe({
       next: () => {
         this.postList.update(curr => curr.filter(p => p.id !== id));
-        this.toast.showSuccess('Post deleted');
+        this.toast.showSuccess('Record deleted');
       }
     });
   }

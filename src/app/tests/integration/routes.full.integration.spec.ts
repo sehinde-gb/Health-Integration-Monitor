@@ -75,7 +75,7 @@ describe('Routes integration', () => {
           await harness.navigateByUrl('/auth/login');
 
           // Should land on Index page instead of Login
-          expect(harness.routeNativeElement?.textContent).toContain('Angular 17 CRUD Application');
+          expect(harness.routeNativeElement?.textContent).toContain('Health Integration Monitor');
       });
 
 
@@ -98,7 +98,7 @@ describe('Routes integration', () => {
 
 
         expect(harness.routeNativeElement?.textContent)
-         .toContain("We couldn't load the posts..."); // or whatever your empty state is
+         .toContain("We couldn't load the patient records..."); // or whatever your empty state is
     });
 
     it('logged in: / redirects to /post/index', async () => {
@@ -109,7 +109,7 @@ describe('Routes integration', () => {
       await harness.navigateByUrl('/');
 
       expect(harness.routeNativeElement?.textContent)
-        .toContain('Angular 17 CRUD Application');
+        .toContain('Health Integration Monitor'); // or something unique on the index page
     });
 
 

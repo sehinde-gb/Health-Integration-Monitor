@@ -32,6 +32,24 @@ describe('IndexComponent (resolver template states)', () => {
   let authSpy: jasmine.SpyObj<AuthService>;
   let loadingStub = { isLoading: () => false };
 
+  const mockPost: Post = {
+    id: 1,
+    patientId: 'P-00001',
+    patientName: 'Recovered Patient',
+    messageType: 'ADT^A01',
+    status: 'Processed',
+    lastUpdated: '2026-06-11T15:03:40.033Z'
+  };
+
+  const mockPost2: Post = {
+    id: 2,
+    patientId: 'P-00002',
+    patientName: 'Patient 2',
+    messageType: 'ORU^R01',
+    status: 'Failed',
+    lastUpdated: '2026-06-11T15:04:40.033Z'
+  };
+
   // TestBed setup runs before each test
   beforeEach(async () => {
     // All of these values are reset before each test runs again !!!!
@@ -83,7 +101,7 @@ describe('IndexComponent (resolver template states)', () => {
     // Act run lifecycle hook ngOnInit
     fixture.detectChanges();
     // Asset that the error will contain we couldnt load posts
-    expect(fixture.nativeElement.textContent).toContain("We couldn't load the posts...");
+    expect(fixture.nativeElement.textContent).toContain("We couldn't load the patient records...");
 
     // 2) click retry
     const btn = fixture.debugElement.query(By.css('button.btn.btn-secondary'));
@@ -96,15 +114,17 @@ describe('IndexComponent (resolver template states)', () => {
     expect(router.navigateByUrl).toHaveBeenCalledWith('/post/index');
   });
 
-  it('renders unable to load posts and recovers when resolver later emits posts', async () => {
+  it('renders unable to load records and recovers when resolver later emits records', async () => {
 
     routeData$.next({ postList: null });
 
     // Act
     fixture.detectChanges();
-    expect(fixture.nativeElement.textContent).toContain("We couldn't load the posts...");
+    expect(fixture.nativeElement.textContent).toContain("We couldn't load the patient records...");
 
-    routeData$.next({ postList: [{ id: 1, title: 'Recovered', body: 'OK'} as Post]});
+    routeData$.next({
+      postList: [mockPost]
+    });
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -116,17 +136,16 @@ describe('IndexComponent (resolver template states)', () => {
   });
 
   it('renders error state when resolver returns null', async () => {
-    // Arrange inject a null post listing
+    // Arrange: inject a null patient record list
     routeData$.next({ postList: null });
-    // Act run lifecycle hook
+
+    // Act
     fixture.detectChanges();
-    // Wait
     await fixture.whenStable();
 
-    // Assert that the text contains we couldn't load posts
-    expect(fixture.nativeElement.textContent).toContain("We couldn't load the posts...");
+    // Assert
+    expect(fixture.nativeElement.textContent).toContain("We couldn't load the patient records...");
 
-    // Check the stub to see it it is NOT null
     const stubDe = fixture.debugElement.query(By.directive(PostListTableStubComponent));
     expect(stubDe).toBeNull();
   });
@@ -141,8 +160,8 @@ describe('IndexComponent (resolver template states)', () => {
     // Arrange add 2 posts in to the route
     routeData$.next({
       postList: [
-        { id: 1, title: 'A', body: 'B' } as Post,
-        { id: 2, title: 'C', body: 'D' } as Post,
+        mockPost,
+        mockPost2,
       ]
     });
     // Act run lifecycle hook
@@ -168,7 +187,7 @@ describe('IndexComponent (resolver template states)', () => {
     expect(stub.posts.length).toBe(1);
 
     // Check that the toast was called with the message
-    expect(toastSpy.showSuccess).toHaveBeenCalledWith('Post deleted');
+    expect(toastSpy.showSuccess).toHaveBeenCalledWith('Record deleted');
   });
 
   it('calls auth.logout and navigates to /auth/login', async () => {
@@ -189,8 +208,8 @@ describe('IndexComponent (resolver template states)', () => {
   it('renders the table when resolver returns posts (success state)', async () => {
     // Arrange posts mock
     const mockPosts: Post[] = [
-      { id: 1, title: 'Hello', body: 'World' } as Post,
-      { id: 2, title: 'Hi', body: 'There' } as Post,
+      mockPost,
+      mockPost2,
     ];
 
     routeData$.next({ postList: mockPosts });
@@ -206,16 +225,16 @@ describe('IndexComponent (resolver template states)', () => {
     // Check the stub to see if it contains 2 stubs and it does NOT contain error message
     const stub = stubDe!.componentInstance as PostListTableStubComponent;
     expect(stub.posts.length).toBe(2);
-    expect(fixture.nativeElement.textContent).not.toContain("We couldn't load the posts...");
+    expect(fixture.nativeElement.textContent).not.toContain("We couldn't load the patient records...");
   });
 
-  it('shows loading row when loading=true and posts empty',  () => {
+  it('shows loading row when loading=true and records empty',  () => {
     loadingStub.isLoading = () => true;
     routeData$.next({ postList: [] });
 
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.textContent).toContain('Loading posts...');
+    expect(fixture.nativeElement.textContent).toContain('Loading records...');
     expect(fixture.debugElement.query(By.directive(PostListTableStubComponent))).toBeNull();
 
 

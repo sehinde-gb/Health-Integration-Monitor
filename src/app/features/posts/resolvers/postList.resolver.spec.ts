@@ -8,6 +8,24 @@ import { firstValueFrom, isObservable, Observable, of, throwError } from 'rxjs';
 describe('postListResolver', () => {
   // Test variables
   let postServiceSpy: jasmine.SpyObj<PostService>;
+  const mockPosts: Post[] = [
+    {
+      id: 1,
+      patientId: 'P-00001',
+      patientName: 'Patient 1',
+      messageType: 'ADT^A01',
+      status: 'Processed',
+      lastUpdated: '2026-06-11T15:03:40.033Z'
+    },
+    {
+      id: 2,
+      patientId: 'P-00002',
+      patientName: 'Patient 2',
+      messageType: 'ORU^R01',
+      status: 'Failed',
+      lastUpdated: '2026-06-11T15:03:40.033Z'
+    }
+  ];
 
   // TestBed setup runs before each test
   beforeEach(() => {
@@ -36,10 +54,6 @@ describe('postListResolver', () => {
 
   it('returns posts when PostService.getAll succeeds', async () => {
     // Arrange
-    const mockPosts: Post[] = [
-      { id: 1, title: 'First Post', body: 'First Body' } as Post,
-      { id: 2, title: 'Second Post', body: 'Second Body' } as Post,
-    ];
     postServiceSpy.getAll.and.returnValue(of(mockPosts));
 
     // Act

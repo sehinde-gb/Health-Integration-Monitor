@@ -14,8 +14,11 @@ describe('PostDetailsCardComponent', () => {
 
     const mockPost: Post = {
       id: 1,
-      title: 'Test title',
-      body: 'Test body',
+      patientId: 'P-00001',
+      patientName: 'Patient 1',
+      messageType: 'ADT^A01',
+      status: 'Processed',
+      lastUpdated: '2026-06-11T15:03:40.033Z'
     };
 
     fixture.componentInstance.post = mockPost;

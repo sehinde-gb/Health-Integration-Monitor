@@ -1,16 +1,16 @@
 <div class="container">
-  <h1 class="text-center">Post Details</h1>
+  <h1 class="text-center">Record Details</h1>
   <hr />
 
   @if (loadingService.isLoading() && !post()) {
     <div class="text-center mt-5">
       <div class="spinner-border text-primary"></div>
-      <p>Loading post...</p>
+      <p>Loading record...</p>
     </div>
 
   } @else if (hasError()) {
     <div class="alert alert-danger">
-      <p>We couldn't load this post.</p>
+      <p>We couldn't load this record.</p>
       <button class="btn btn-outline-danger" type="button" (click)="retry()">
         Retry
       </button>
@@ -23,7 +23,7 @@
         (back)="goBack()"
       />
     } @else {
-      <p>No post found</p>
+      <p>No record found</p>
     }
   }
 </div>

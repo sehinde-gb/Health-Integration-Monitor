@@ -81,7 +81,7 @@ export class CreateComponent {
     .pipe(finalize(() => this.isSubmitting.set(false)))
     .subscribe({
         next: () => {
-          this.toast.showSuccess('Post created successfully')
+          this.toast.showSuccess('Record created successfully')
           this.route.navigateByUrl('/post/index');
         },
         error: (err: HttpErrorResponse) => {

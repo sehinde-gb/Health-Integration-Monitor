@@ -12,12 +12,30 @@ describe('PostService', () => {
   let service: PostService;
   let httpMock: HttpTestingController;
 
+  const mockPost: Post = {
+      id: 1,
+      patientId: 'P-00001',
+      patientName: 'Patient 1',
+      messageType: 'ADT^A01',
+      status: 'Processed',
+      lastUpdated: '2026-06-11T15:03:40.033Z'
+  };
+
+  const mockPost2: Post = {
+      id: 2,
+      patientId: 'P-00002',
+      patientName: 'Patient 2',
+      messageType: 'ORU^R01',
+      status: 'Failed',
+      lastUpdated: '2026-06-11T15:04:40.033Z'
+  };
+
   // TestBed setup runs before each test
   beforeEach(() => {
-    TestBed.configureTestingModule({
-    imports: [],
-    providers: [PostService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
-});
+      TestBed.configureTestingModule({
+      imports: [],
+      providers: [PostService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+    });
 
     service = TestBed.inject(PostService);
     httpMock = TestBed.inject(HttpTestingController);
@@ -36,15 +54,17 @@ describe('PostService', () => {
     it('should create a post (POST)', () => {
     // ARRANGE
     const payload: CreatePostDto = {
-      title: 'New Title',
-      body: 'New body',
+      patientId: 'P-00001',
+      patientName: 'Patient 1',
+      messageType: 'ADT^A01',
+      status: 'Processed',
+      lastUpdated: '2026-06-11T15:03:40.033Z'
     };
 
     const mockResponse: Post = {
-      id: 101,
-      title: payload.title,
-      body: payload.body,
-    } as Post;
+      ...mockPost,
+      ...payload
+    };
 
     let actual!: Post;
 
@@ -67,8 +87,8 @@ describe('PostService', () => {
   it('should fetch all posts (GET)', () => {
     // ARRANGE
     const mockPosts: Post[] = [
-      { id: 1, title: 'Post 1', body: 'Body 1' } as Post,
-      { id: 2, title: 'Post 2', body: 'Body 2' } as Post,
+      { ...mockPost },
+      { ...mockPost2 },
     ];
 
     // ACT
@@ -89,9 +109,13 @@ describe('PostService', () => {
     // ARRANGE
     const mockPost: Post = {
       id: 1,
-      title: 'Post',
-      body: 'Body'
-    } as Post;
+      patientId: 'P-00001',
+      patientName: 'Patient 1',
+      messageType: 'ADT^A01',
+      status: 'Processed',
+      lastUpdated: '2026-06-11T15:03:40.033Z'
+    };
+
 
     // ACT
     service.find(1).subscribe((post) => {
@@ -108,16 +132,18 @@ describe('PostService', () => {
 
   it('it should update a post (PUT)', () => {
     // ARRANGE
-    const payload: UpdatePostDto = {
-      title: 'Updated Title',
-      body: 'Updated Body'
-    };
+   const payload: CreatePostDto = {
+      patientId: 'P-00001',
+      patientName: 'Patient 1',
+      messageType: 'ADT^A01',
+      status: 'Processed',
+      lastUpdated: '2026-06-11T15:03:40.033Z'
+   };
 
     const mockResponse: Post = {
-      id: 1,
-      title: payload.title,
-      body: payload.body
-    } as Post;
+      id: 101,
+      ...payload
+    };
 
     // ACT
     service.update(1, payload).subscribe((post) =>{
@@ -149,7 +175,6 @@ describe('PostService', () => {
     const req = httpMock.expectOne(`${environment.apiUrl}/posts/${postId}`);
     // Expect the method to be delete
     expect(req.request.method).toBe('DELETE');
-
 
 
     // FLUSH a null response body for DELETE

@@ -27,6 +27,6 @@ describe('AppComponent', () => {
   const compiled = fixture.nativeElement as HTMLElement;
   const titleEl = compiled.querySelector('[data-test="app-title"]');
 
-  expect(titleEl?.textContent).toContain('Angular 17 CRUD');
+  expect(titleEl?.textContent).toContain('Health Monitor');
 });
 });

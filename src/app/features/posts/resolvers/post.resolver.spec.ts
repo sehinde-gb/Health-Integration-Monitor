@@ -94,7 +94,7 @@ describe('postResolver', () => {
 
     // Arrange (remember observables have $ added to them)
     // Create the mock post and assign these values
-    const mock: Post = { id: 1, title: 'Hello', body: 'World' } as Post;
+    const mock: Post = { patientId: 'P-00001', patientName: 'Hello', messageType: 'World', status: 'Processed', lastUpdated: '2026-06-11T15:03:40.033Z' } as Post;
 
     // Use the postService find method with the mock created above
     postServiceSpy.find.and.returnValue(of(mock));

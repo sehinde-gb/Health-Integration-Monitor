@@ -20,11 +20,11 @@ import { GlobalLoadingService } from '../../../../core/services/global-loading.s
   selector: 'app-post-details-card',
   standalone: true,
   template: `
-    <div data-test="post-details-stub">
-      title: {{ post?.title ?? 'none' }}
-      <button type="button" data-test="emit-back" (click)="back.emit()">Back</button>
-    </div>
-  `
+  <div data-test="post-details-stub">
+    patient: {{ post?.patientName ?? 'none' }}
+    <button type="button" data-test="emit-back" (click)="back.emit()">Back</button>
+  </div>
+`
 })
 class PostDetailsCardStubComponent {
   @Input() post!: Post;
@@ -38,6 +38,17 @@ describe('ViewComponent (resolver + template states)', () => {
   let fixture: ComponentFixture<ViewComponent>;
   let component: ViewComponent;
   let routerSpy: jasmine.SpyObj<Router>;
+
+  const mockPost: Post = {
+    id: 1,
+    patientId: 'P-00001',
+    patientName: 'Patient 1',
+    messageType: 'ADT^A01',
+    status: 'Processed',
+    lastUpdated: '2026-06-11T15:03:40.033Z'
+  };
+
+
 
   /* Overrides the real Post resolver BEFORE component is created
  this is a simulation of the Post resolver simulation the result route.snapshot.data['post'] */
@@ -86,7 +97,7 @@ describe('ViewComponent (resolver + template states)', () => {
   });
 
   it('renders the details stub and passes the resolved post (success path)', () => {
-    const resolved: Post = { id: 1, title: 'Hello', body: 'World' } as Post;
+    const resolved: Post = mockPost;
     setupWithResolvedPost(resolved);
 
     // The view component is instantiated
@@ -103,11 +114,14 @@ describe('ViewComponent (resolver + template states)', () => {
     const stub = stubDe!.componentInstance as PostDetailsCardStubComponent;
 
     // ✅ check to see if input passed correctly
-    expect(stub.post.title).toBe('Hello');
-    expect(stub.post.body).toBe('World');
+    expect(stub.post.patientId).toBe('P-00001');
+    expect(stub.post.patientName).toBe('Patient 1');
+    expect(stub.post.messageType).toBe('ADT^A01');
+    expect(stub.post.status).toBe('Processed');
+    expect(stub.post.lastUpdated).toBe('2026-06-11T15:03:40.033Z');
 
     // ✅ should not show error text
-    expect(fixture.nativeElement.textContent).not.toContain("We couldn't load this post.");
+    expect(fixture.nativeElement.textContent).not.toContain("We couldn't load this record.");
   });
 
   it('renders error state when resolver returns null', () => {
@@ -121,7 +135,7 @@ describe('ViewComponent (resolver + template states)', () => {
     fixture.detectChanges();
 
     // ASSERT
-    expect(fixture.nativeElement.textContent).toContain("We couldn't load this post.");
+    expect(fixture.nativeElement.textContent).toContain("We couldn't load this record.");
 
     // ✅ stub should NOT render
     const stubDe = fixture.debugElement.query(By.directive(PostDetailsCardStubComponent));
@@ -130,7 +144,7 @@ describe('ViewComponent (resolver + template states)', () => {
 
   it('calls goBack() when child emits back', () => {
     // ARRANGE
-    const resolved: Post = { id: 1, title: 'Hello', body: 'World' } as Post;
+    const resolved: Post = mockPost;
     setupWithResolvedPost(resolved);
 
     fixture = TestBed.createComponent(ViewComponent);
@@ -158,7 +172,7 @@ describe('ViewComponent (resolver + template states)', () => {
       fixture.detectChanges();
 
       // Assert
-      expect(fixture.nativeElement.textContent).toContain('Loading post...');
+      expect(fixture.nativeElement.textContent).toContain('Loading record...');
       expect(fixture.debugElement.query(By.directive(PostDetailsCardStubComponent))).toBeNull();
   });
 

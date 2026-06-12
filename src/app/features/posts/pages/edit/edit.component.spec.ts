@@ -30,6 +30,15 @@ describe('EditComponent (container, resolver)', () => {
     }
   };
 
+  const mockPost: Post = {
+    id: 1,
+    patientId: 'P-00001',
+    patientName: 'Patient 1',
+    messageType: 'ADT^A01',
+    status: 'Processed',
+    lastUpdated: '2026-06-11T15:03:40.033Z'
+  };
+
   function setResolvedPost(post: Post | null) {
     activatedRouteStub.snapshot.data.post = post;
   }
@@ -69,7 +78,7 @@ describe('EditComponent (container, resolver)', () => {
   */
  it('renders post-form stub and passes expected inputs when resolver provides a post', () => {
     // Arrange pass in a post sent by the resolver
-    setResolvedPost({ id: 1, title: 'A', body: 'B' } as Post);
+    setResolvedPost(mockPost);
 
     // Build the page
     fixture = TestBed.createComponent(EditComponent);
@@ -84,7 +93,7 @@ describe('EditComponent (container, resolver)', () => {
 
     // And expect the label is passed from the component to the stub component
     const stub = stubDe!.componentInstance as PostFormStubComponent;
-    expect(stub.submitLabel).toBe('Update Post');
+    expect(stub.submitLabel).toBe('Update Patient Record');
     expect(stub.requireDirty).toBeTrue();
     expect(stub.form).toBeTruthy();
   });
@@ -96,7 +105,15 @@ describe('EditComponent (container, resolver)', () => {
 
   it('calls PostService.update(id, dto) when stub emits submitForm (success path)', () => {
      // Arrange pass in a post sent by the resolver
-    setResolvedPost({ id: 1, title: 'Old', body: 'OldBody' } as Post);
+    setResolvedPost({
+      ...mockPost,
+      patientId: 'P-00001',
+      patientName: 'Old Patient',
+      messageType: 'ADT^A01',
+      status: 'Processed',
+      lastUpdated: '2026-06-11T15:03:40.033Z'
+     });
+
 
     // Call the post service and returnValue of is a fake observable that simulates the observable result that the real service will return.
     postServiceSpy.update.and.returnValue(of({} as any));
@@ -109,8 +126,11 @@ describe('EditComponent (container, resolver)', () => {
     fixture.detectChanges();
 
     // Amend the form and make it dirty + valid
-    component.form.get('title')?.setValue('New');
-    component.form.get('body')?.setValue('NewBody');
+    component.form.controls['patientId'].setValue('P-00001');
+    component.form.controls['patientName'].setValue('New Patient');
+    component.form.controls['messageType'].setValue('ORU^R01');
+    component.form.controls['status'].setValue('Processed');
+    component.form.controls['lastUpdated'].setValue('2026-06-11T16:00:00.000Z');
     component.form.markAsDirty();
 
     // Assert check the form and expect it to not be null
@@ -122,7 +142,13 @@ describe('EditComponent (container, resolver)', () => {
     stub.submitForm.emit();
 
     // Assert that the Dto's have passed to the stub and the update function has been called
-    const expectedDto: UpdatePostDto = { title: 'New', body: 'NewBody' };
+    const expectedDto: UpdatePostDto = {
+      patientId: 'P-00001',
+      patientName: 'New Patient',
+      messageType: 'ORU^R01',
+      status: 'Processed',
+      lastUpdated: '2026-06-11T16:00:00.000Z'
+    };
     expect(postServiceSpy.update).toHaveBeenCalledWith(1, expectedDto);
     expect(toastSpy.showSuccess).toHaveBeenCalled();
     expect(routerSpy.navigateByUrl).toHaveBeenCalledWith('/post/index');
@@ -132,7 +158,7 @@ describe('EditComponent (container, resolver)', () => {
 
   it('does navigate back when form clean', () => {
     // Arrange send a resolved post
-    setResolvedPost({ id: 1, title: 'A', body: 'B'} as Post);
+    setResolvedPost(mockPost);
 
     fixture = TestBed.createComponent(EditComponent);
     component = fixture.componentInstance;
@@ -172,7 +198,7 @@ describe('EditComponent (container, resolver)', () => {
 
   it('sets form serverError for 400/422 on update', () => {
     // Arrange send a resolved post
-    setResolvedPost({ id: 1, title: 'A', body: 'B' } as Post);
+    setResolvedPost(mockPost);
 
     // Send a 422 from the faked postService
     postServiceSpy.update.and.returnValue(
@@ -187,8 +213,11 @@ describe('EditComponent (container, resolver)', () => {
     fixture.detectChanges();
 
     // Set form properties and mark as dirty (changed)
-    component.form.get('title')?.setValue('New');
-    component.form.get('body')?.setValue('NewBody');
+    component.form.controls['patientId'].setValue('P-00001');
+    component.form.controls['patientName'].setValue('New Patient');
+    component.form.controls['messageType'].setValue('ADT^A01');
+    component.form.controls['status'].setValue('Processed');
+    component.form.controls['lastUpdated'].setValue('2026-06-11T15:03:40.033Z');
     component.form.markAsDirty();
 
     component.submit();

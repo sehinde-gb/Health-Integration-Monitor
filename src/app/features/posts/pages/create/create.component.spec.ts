@@ -65,11 +65,14 @@ describe('CreateComponent (container)', () => {
     fixture.detectChanges();
 
     // Set up the form controls and add values
-    component.form.controls['title'].setValue('T');
-    component.form.controls['body'].setValue('B');
+    component.form.controls['patientId'].setValue('P-00001');
+    component.form.controls['patientName'].setValue('Patient 1');
+    component.form.controls['messageType'].setValue('ADT^A01');
+    component.form.controls['status'].setValue('Processed');
+    component.form.controls['lastUpdated'].setValue('2026-06-11T15:03:40.033Z');
 
     // Inject the post service variables
-    postServiceSpy.create.and.returnValue(of({ id: 1, title: 'T', body: 'B' } as any));
+    postServiceSpy.create.and.returnValue(of({ id: 1, patientId: 'P-00001', patientName: 'Patient 1', messageType: 'ADT^A01', status: 'Processed', lastUpdated: '2026-06-11T15:03:40.033Z' } as any));
 
     // emit submit from stub (simulates clicking submit in presentational component)
     const stubDe = fixture.debugElement.query(By.directive(PostFormStubComponent));
@@ -78,9 +81,16 @@ describe('CreateComponent (container)', () => {
 
     fixture.detectChanges();
     // Assert that the payload has been passed to the post service
-    const expectedPayload: CreatePostDto = { title: 'T', body: 'B' };
+    const expectedPayload: CreatePostDto = {
+      patientId: 'P-00001',
+      patientName: 'Patient 1',
+      messageType: 'ADT^A01',
+      status: 'Processed',
+      lastUpdated: '2026-06-11T15:03:40.033Z'
+    };
+
     expect(postServiceSpy.create).toHaveBeenCalledWith(expectedPayload);
-    expect(toastSpy.showSuccess).toHaveBeenCalledWith('Post created successfully');
+    expect(toastSpy.showSuccess).toHaveBeenCalledWith('Record created successfully');
     expect(toastSpy.showError).not.toHaveBeenCalled();
     expect(routerSpy.navigateByUrl).toHaveBeenCalledWith('/post/index');
   });
@@ -94,19 +104,22 @@ describe('CreateComponent (container)', () => {
     fixture.detectChanges();
 
     // Set up the form controls and add values
-    component.form.controls['title'].setValue('T');
-    component.form.controls['body'].setValue('B');
+    component.form.controls['patientId'].setValue('P-00001');
+    component.form.controls['patientName'].setValue('Patient 1');
+    component.form.controls['messageType'].setValue('ADT^A01');
+    component.form.controls['status'].setValue('Processed');
+    component.form.controls['lastUpdated'].setValue('2026-06-11T15:03:40.033Z');
 
     // Inject a post service error that fails validation
     postServiceSpy.create.and.returnValue(
-      throwError(() => new HttpErrorResponse({ status: 422, error: { message: 'Validation failed' } }))
+      throwError(() => new HttpErrorResponse({ status: 422, error: { message: 'Please check the form. Some fields are invalid' } }))
     );
 
     // Submit
     component.submit();
 
     // Assert that the server returns validation failure message
-    expect(component.serverErrorMessage()).toContain('Validation failed');
+    expect(component.serverErrorMessage()).toContain('Please check the form. Some fields are invalid');
     expect(component.form.errors?.['serverError']).toBeTrue();
     expect(toastSpy.showSuccess).not.toHaveBeenCalled();
 
@@ -128,7 +141,7 @@ describe('CreateComponent (container)', () => {
     // Assert that the input create post has been passed to the stub
     const stub = stubDe!.componentInstance as PostFormStubComponent;
 
-    expect(stub.submitLabel).toBe('Create Post');
+    expect(stub.submitLabel).toBe('Create Record');
 
     expect(stub.requireDirty).toBeFalse();
     expect(stub.form).toBeTruthy();
