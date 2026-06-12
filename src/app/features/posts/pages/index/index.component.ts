@@ -23,8 +23,8 @@ export class IndexComponent {
   processedCount = computed(() => this.filteredPosts().filter(record => record.status === 'Processed').length);
   pendingCount = computed(() => this.filteredPosts().filter(record => record.status === 'Pending').length);
   failedCount = computed(() => this.filteredPosts().filter(record => record.status === 'Failed').length);
+  statusFilter = signal<'All' | 'Processed' | 'Pending' | 'Failed'>('All');
   public loadingService = inject(GlobalLoadingService);
-
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private postService = inject(PostService);
@@ -86,11 +86,17 @@ export class IndexComponent {
   searchTerm = signal('');
 
   filteredPosts = computed(() =>
-    this.postList().filter(post =>
+  this.postList().filter(post => {
+    const matchesSearch =
       post.patientName.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
       post.patientId.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
-      post.messageType.toLowerCase().includes(this.searchTerm().toLowerCase())
-    )
+      post.messageType.toLowerCase().includes(this.searchTerm().toLowerCase());
+
+    const matchesStatus =
+      this.statusFilter() === 'All' || post.status === this.statusFilter();
+
+    return matchesSearch && matchesStatus;
+    })
   );
 
 }
