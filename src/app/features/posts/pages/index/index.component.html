@@ -99,17 +99,21 @@
 
         <div class="mb-3">
           <button
-            class="btn btn-outline-primary me-2"
+            class="btn me-2"
+            [class.btn-primary]="sortDirection() === 'desc'"
+            [class.btn-outline-primary]="sortDirection() !== 'desc'"
             (click)="sortDirection.set('desc')">
             Newest First
           </button>
 
           <button
-            class="btn btn-outline-primary"
+            class="btn"
+            [class.btn-primary]="sortDirection() === 'asc'"
+            [class.btn-outline-primary]="sortDirection() !== 'asc'"
             (click)="sortDirection.set('asc')">
             Oldest First
           </button>
-        </div>
+      </div>
 
         <div class="mb-3">
           <span class="badge bg-success me-2">
