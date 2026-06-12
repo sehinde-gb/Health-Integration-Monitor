@@ -176,6 +176,18 @@
           Sort = {{ sortDirection() === 'desc' ? 'Newest First' : 'Oldest First' }}
         </p>
 
+        <div class="mb-3">
+          <span class="badge bg-secondary me-2">
+            ADT^A01: {{ adtA01Count() }}
+          </span>
+          <span class="badge bg-info me-2">
+            ORU^R01: {{ oruR01Count() }}
+          </span>
+          <span class="badge bg-dark">
+            ADT^A03: {{ adtA03Count() }}
+          </span>
+        </div>
+
         <p class="text-muted">
           Showing {{ filteredAndSortedPosts().length }} of {{ totalRecords() }} records
         </p>

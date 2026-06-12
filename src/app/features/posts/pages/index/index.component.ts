@@ -134,7 +134,9 @@ export class IndexComponent {
     this.router.navigate(['/auth/login']);
   }
 
-
+  adtA01Count = computed(() => this.postList().filter(record => record.messageType === 'ADT^A01').length);
+  oruR01Count = computed(() => this.postList().filter(record => record.messageType === 'ORU^R01').length);
+  adtA03Count = computed(() => this.postList().filter(record => record.messageType === 'ADT^A03').length);
 
 
 
