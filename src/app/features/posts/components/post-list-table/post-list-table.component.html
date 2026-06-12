@@ -28,7 +28,7 @@
                 {{ post.status }}
               </span>
             </td>
-            <td>{{post.lastUpdated}}</td>
+            <td>{{ post.lastUpdated | date:'dd MMM yyyy, HH:mm' }}</td>
             <td>
               <a [routerLink]="['/post/',post.id,'view']" class="btn btn-info">View</a>
               <a [routerLink]="['/post', post.id, 'edit']" class="btn btn-primary">Edit</a>
