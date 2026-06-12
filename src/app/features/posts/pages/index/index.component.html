@@ -170,6 +170,13 @@
       </div>
 
         <p class="text-muted">
+          Active filters:
+          Status = {{ statusFilter() }},
+          Message Type = {{ messageTypeFilter() }},
+          Sort = {{ sortDirection() === 'desc' ? 'Newest First' : 'Oldest First' }}
+        </p>
+
+        <p class="text-muted">
           Showing {{ filteredAndSortedPosts().length }} of {{ totalRecords() }} records
         </p>
           <app-post-list-table
