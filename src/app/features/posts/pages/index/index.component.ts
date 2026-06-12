@@ -71,6 +71,12 @@ export class IndexComponent {
     this.router.navigateByUrl(this.router.url);
   }
 
+  resetFilters(): void {
+    this.searchTerm.set('');
+    this.statusFilter.set('All');
+    this.sortDirection.set('desc');
+  }
+
   deletePost(id: number): void {
     this.postService.delete(id).subscribe({
       next: () => {
