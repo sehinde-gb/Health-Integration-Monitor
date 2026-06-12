@@ -98,10 +98,37 @@
         </div>
 
         <div class="mb-3">
-          <button class="btn btn-outline-dark me-2" (click)="messageTypeFilter.set('All')">All Types</button>
-          <button class="btn btn-outline-dark me-2" (click)="messageTypeFilter.set('ADT^A01')">ADT^A01</button>
-          <button class="btn btn-outline-dark me-2" (click)="messageTypeFilter.set('ORU^R01')">ORU^R01</button>
-          <button class="btn btn-outline-dark" (click)="messageTypeFilter.set('ADT^A03')">ADT^A03</button>
+            <button
+              class="btn me-2"
+              [class.btn-dark]="messageTypeFilter() === 'All'"
+              [class.btn-outline-dark]="messageTypeFilter() !== 'All'"
+              (click)="messageTypeFilter.set('All')">
+              All Types
+            </button>
+
+            <button
+              class="btn me-2"
+              [class.btn-dark]="messageTypeFilter() === 'ADT^A01'"
+              [class.btn-outline-dark]="messageTypeFilter() !== 'ADT^A01'"
+              (click)="messageTypeFilter.set('ADT^A01')">
+              ADT^A01
+            </button>
+
+            <button
+              class="btn me-2"
+              [class.btn-dark]="messageTypeFilter() === 'ORU^R01'"
+              [class.btn-outline-dark]="messageTypeFilter() !== 'ORU^R01'"
+              (click)="messageTypeFilter.set('ORU^R01')">
+              ORU^R01
+            </button>
+
+            <button
+              class="btn"
+              [class.btn-dark]="messageTypeFilter() === 'ADT^A03'"
+              [class.btn-outline-dark]="messageTypeFilter() !== 'ADT^A03'"
+              (click)="messageTypeFilter.set('ADT^A03')">
+              ADT^A03
+            </button>
       </div>
 
         <div class="mb-3">
