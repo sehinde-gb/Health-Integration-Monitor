@@ -98,6 +98,13 @@
         </div>
 
         <div class="mb-3">
+          <button class="btn btn-outline-dark me-2" (click)="messageTypeFilter.set('All')">All Types</button>
+          <button class="btn btn-outline-dark me-2" (click)="messageTypeFilter.set('ADT^A01')">ADT^A01</button>
+          <button class="btn btn-outline-dark me-2" (click)="messageTypeFilter.set('ORU^R01')">ORU^R01</button>
+          <button class="btn btn-outline-dark" (click)="messageTypeFilter.set('ADT^A03')">ADT^A03</button>
+      </div>
+
+        <div class="mb-3">
           <button
             class="btn me-2"
             [class.btn-primary]="sortDirection() === 'desc'"

@@ -26,6 +26,7 @@ export class IndexComponent {
   failedCount = computed(() => this.postList().filter(record => record.status === 'Failed').length);
   statusFilter = signal<'All' | 'Processed' | 'Pending' | 'Failed'>('All');
   sortDirection = signal<'desc' | 'asc'>('desc');
+  messageTypeFilter = signal<'All' | 'ADT^A01' | 'ORU^R01' | 'ADT^A03'>('All');
   public loadingService = inject(GlobalLoadingService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -75,6 +76,7 @@ export class IndexComponent {
     this.searchTerm.set('');
     this.statusFilter.set('All');
     this.sortDirection.set('desc');
+    this.messageTypeFilter.set('All');
   }
 
   deletePost(id: number): void {
@@ -98,7 +100,12 @@ export class IndexComponent {
             this.statusFilter() === 'All' ||
             post.status === this.statusFilter();
 
-          return matchesSearch && matchesStatus;
+          const matchesMessageType =
+            this.messageTypeFilter() === 'All' ||
+            post.messageType === this.messageTypeFilter();
+
+
+          return matchesSearch && matchesStatus && matchesMessageType;
         });
 
         return [...records].sort((a, b) => {
