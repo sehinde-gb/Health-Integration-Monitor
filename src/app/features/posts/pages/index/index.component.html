@@ -48,6 +48,7 @@
               <div class="card text-center">
                 <div class="card-body">
                   <h5>Failed</h5>
+                  <small>{{ failureRate() }}% failure rate</small>
                   <p class="display-6">{{ failedCount() }}</p>
                 </div>
               </div>
@@ -61,12 +62,42 @@
             [value]="searchTerm()"
             (input)="searchTerm.set($any($event.target).value)"
           />
+
           <div class="mb-3">
-            <button class="btn btn-outline-secondary me-2" (click)="statusFilter.set('All')">All</button>
-            <button class="btn btn-outline-success me-2" (click)="statusFilter.set('Processed')">Processed</button>
-            <button class="btn btn-outline-warning me-2" (click)="statusFilter.set('Pending')">Pending</button>
-            <button class="btn btn-outline-danger" (click)="statusFilter.set('Failed')">Failed</button>
-          </div>
+            <button
+              class="btn me-2"
+              [class.btn-secondary]="statusFilter() === 'All'"
+              [class.btn-outline-secondary]="statusFilter() !== 'All'"
+              (click)="statusFilter.set('All')">
+              All
+            </button>
+
+            <button
+              class="btn me-2"
+              [class.btn-success]="statusFilter() === 'Processed'"
+              [class.btn-outline-success]="statusFilter() !== 'Processed'"
+              (click)="statusFilter.set('Processed')">
+              Processed
+            </button>
+
+            <button
+              class="btn me-2"
+              [class.btn-warning]="statusFilter() === 'Pending'"
+              [class.btn-outline-warning]="statusFilter() !== 'Pending'"
+              (click)="statusFilter.set('Pending')">
+              Pending
+            </button>
+
+            <button
+              class="btn"
+              [class.btn-danger]="statusFilter() === 'Failed'"
+              [class.btn-outline-danger]="statusFilter() !== 'Failed'"
+              (click)="statusFilter.set('Failed')">
+              Failed
+            </button>
+        </div>
+
+
           <app-post-list-table
             [posts]="filteredPosts()"
             (deletePost)="deletePost($event)"

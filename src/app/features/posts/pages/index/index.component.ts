@@ -78,13 +78,6 @@ export class IndexComponent {
     });
   }
 
-  logout(): void {
-    this.auth.logout();
-    this.router.navigate(['/auth/login']);
-  }
-
-  searchTerm = signal('');
-
   filteredPosts = computed(() =>
   this.postList().filter(post => {
     const matchesSearch =
@@ -99,4 +92,26 @@ export class IndexComponent {
     })
   );
 
+  failureRate = computed(() => {
+    const total = this.filteredPosts().length;
+    if(total === 0) return 0;
+
+    return Math.round((this.failedCount() / total) * 100);
+  });
+
+
+
+  searchTerm = signal('');
+
+  logout(): void {
+    this.auth.logout();
+    this.router.navigate(['/auth/login']);
+  }
+
+
+
+
+
 }
+
+
