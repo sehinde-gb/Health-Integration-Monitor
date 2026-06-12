@@ -18,12 +18,14 @@ export class IndexComponent {
   // ✅ template calls postList() and hasError()
   postList = signal<Post[]>([]);
   hasError = signal(false);
+  searchTerm = signal('');
   totalPosts = computed(() => this.postList().length);
   totalRecords = computed(() => this.postList().length);
   processedCount = computed(() => this.postList().filter(record => record.status === 'Processed').length);
   pendingCount = computed(() => this.postList().filter(record => record.status === 'Pending').length);
   failedCount = computed(() => this.postList().filter(record => record.status === 'Failed').length);
   statusFilter = signal<'All' | 'Processed' | 'Pending' | 'Failed'>('All');
+  sortDirection = signal<'desc' | 'asc'>('desc');
   public loadingService = inject(GlobalLoadingService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -78,19 +80,30 @@ export class IndexComponent {
     });
   }
 
-  filteredPosts = computed(() =>
-    this.postList().filter(post => {
-      const matchesSearch =
-        post.patientName.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
-        post.patientId.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
-        post.messageType.toLowerCase().includes(this.searchTerm().toLowerCase());
+  filteredAndSortedPosts = computed(() => {
+        const records = this.postList().filter(post => {
 
-      const matchesStatus =
-        this.statusFilter() === 'All' || post.status === this.statusFilter();
+          const matchesSearch =
+            post.patientName.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
+            post.patientId.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
+            post.messageType.toLowerCase().includes(this.searchTerm().toLowerCase());
 
-      return matchesSearch && matchesStatus;
-      })
-  );
+          const matchesStatus =
+            this.statusFilter() === 'All' ||
+            post.status === this.statusFilter();
+
+          return matchesSearch && matchesStatus;
+        });
+
+        return [...records].sort((a, b) => {
+          const aDate = new Date(a.lastUpdated).getTime();
+          const bDate = new Date(b.lastUpdated).getTime();
+
+          return this.sortDirection() === 'desc'
+            ? bDate - aDate
+            : aDate - bDate;
+        });
+  });
 
   failureRate = computed(() => {
     const total = this.postList().length;
@@ -101,7 +114,7 @@ export class IndexComponent {
 
 
 
-  searchTerm = signal('');
+
 
   logout(): void {
     this.auth.logout();

@@ -97,6 +97,19 @@
             </button>
         </div>
 
+        <div class="mb-3">
+          <button
+            class="btn btn-outline-primary me-2"
+            (click)="sortDirection.set('desc')">
+            Newest First
+          </button>
+
+          <button
+            class="btn btn-outline-primary"
+            (click)="sortDirection.set('asc')">
+            Oldest First
+          </button>
+        </div>
 
         <div class="mb-3">
           <span class="badge bg-success me-2">
@@ -113,10 +126,10 @@
       </div>
 
         <p class="text-muted">
-          Showing {{ filteredPosts().length }} of {{ totalRecords() }} records
+          Showing {{ filteredAndSortedPosts().length }} of {{ totalRecords() }} records
         </p>
           <app-post-list-table
-            [posts]="filteredPosts()"
+            [posts]="filteredAndSortedPosts()"
             (deletePost)="deletePost($event)"
           />
       }
