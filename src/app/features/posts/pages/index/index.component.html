@@ -97,7 +97,9 @@
             </button>
         </div>
 
-
+        <p class="text-muted">
+          Showing {{ filteredPosts().length }} of {{ totalRecords() }} records
+        </p>
           <app-post-list-table
             [posts]="filteredPosts()"
             (deletePost)="deletePost($event)"

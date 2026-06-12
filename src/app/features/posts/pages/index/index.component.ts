@@ -19,10 +19,10 @@ export class IndexComponent {
   postList = signal<Post[]>([]);
   hasError = signal(false);
   totalPosts = computed(() => this.postList().length);
-  totalRecords = computed(() => this.filteredPosts().length);
-  processedCount = computed(() => this.filteredPosts().filter(record => record.status === 'Processed').length);
-  pendingCount = computed(() => this.filteredPosts().filter(record => record.status === 'Pending').length);
-  failedCount = computed(() => this.filteredPosts().filter(record => record.status === 'Failed').length);
+  totalRecords = computed(() => this.postList().length);
+  processedCount = computed(() => this.postList().filter(record => record.status === 'Processed').length);
+  pendingCount = computed(() => this.postList().filter(record => record.status === 'Pending').length);
+  failedCount = computed(() => this.postList().filter(record => record.status === 'Failed').length);
   statusFilter = signal<'All' | 'Processed' | 'Pending' | 'Failed'>('All');
   public loadingService = inject(GlobalLoadingService);
   private route = inject(ActivatedRoute);
@@ -79,21 +79,21 @@ export class IndexComponent {
   }
 
   filteredPosts = computed(() =>
-  this.postList().filter(post => {
-    const matchesSearch =
-      post.patientName.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
-      post.patientId.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
-      post.messageType.toLowerCase().includes(this.searchTerm().toLowerCase());
+    this.postList().filter(post => {
+      const matchesSearch =
+        post.patientName.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
+        post.patientId.toLowerCase().includes(this.searchTerm().toLowerCase()) ||
+        post.messageType.toLowerCase().includes(this.searchTerm().toLowerCase());
 
-    const matchesStatus =
-      this.statusFilter() === 'All' || post.status === this.statusFilter();
+      const matchesStatus =
+        this.statusFilter() === 'All' || post.status === this.statusFilter();
 
-    return matchesSearch && matchesStatus;
-    })
+      return matchesSearch && matchesStatus;
+      })
   );
 
   failureRate = computed(() => {
-    const total = this.filteredPosts().length;
+    const total = this.postList().length;
     if(total === 0) return 0;
 
     return Math.round((this.failedCount() / total) * 100);
