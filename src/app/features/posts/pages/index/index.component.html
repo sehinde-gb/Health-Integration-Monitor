@@ -97,6 +97,21 @@
             </button>
         </div>
 
+
+        <div class="mb-3">
+          <span class="badge bg-success me-2">
+            Processed: {{ processedCount() }}
+          </span>
+
+          <span class="badge bg-warning text-dark me-2">
+            Pending: {{ pendingCount() }}
+          </span>
+
+          <span class="badge bg-danger">
+            Failed: {{ failedCount() }}
+          </span>
+      </div>
+
         <p class="text-muted">
           Showing {{ filteredPosts().length }} of {{ totalRecords() }} records
         </p>
