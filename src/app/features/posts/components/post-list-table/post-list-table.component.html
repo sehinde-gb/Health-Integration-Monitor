@@ -16,7 +16,18 @@
             <td>{{post.patientId}}</td>
             <td>{{post.patientName}}</td>
             <td>{{post.messageType}}</td>
-            <td>{{post.status}}</td>
+            <td>
+              <span
+                class="badge"
+                [ngClass]="{
+                  'bg-success': post.status === 'Processed',
+                  'bg-warning text-dark': post.status === 'Pending',
+                  'bg-danger': post.status === 'Failed'
+                }"
+                >
+                {{ post.status }}
+              </span>
+            </td>
             <td>{{post.lastUpdated}}</td>
             <td>
               <a [routerLink]="['/post/',post.id,'view']" class="btn btn-info">View</a>
