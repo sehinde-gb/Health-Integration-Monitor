@@ -74,4 +74,21 @@ export class PostDetailsCardComponent {
         event.label === 'Processing completed'
       );
     }
-}
+
+    showErrorsOnly = false;
+
+    toggleErrorsOnly(): void {
+      this.showErrorsOnly = !this.showErrorsOnly;
+    }
+
+    getVisibleEvents(): ProcessingEvent[] {
+
+      if(!this.showErrorsOnly) {
+        return this.getProcessingEvents();
+      }
+
+        return this.getProcessingEvents().filter(event =>
+          event.status === 'Error'
+        );
+    }
+  }
