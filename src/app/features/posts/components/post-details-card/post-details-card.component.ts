@@ -15,10 +15,54 @@ export class PostDetailsCardComponent {
   // Optional: keep it as an event (so parent controls navigation)
   @Output() back = new EventEmitter<void>();
 
-  processingEvents: ProcessingEvent[] = [
-    { label: 'Message received', timestamp: new Date().toISOString(), status: 'Success' },
-    { label: 'Validation completed', timestamp: new Date().toISOString(), status: 'Success' },
-    { label: 'Routed to target system', timestamp: new Date().toISOString(), status: 'Success' },
-    { label: 'Processing completed', timestamp: new Date().toISOString(), status: 'Success' },
-  ];
+  getProcessingEvents(): ProcessingEvent[] {
+      const baseEvents: ProcessingEvent[] = [
+        {
+          label: 'Message received',
+          timestamp: this.post.lastUpdated,
+          status: 'Success'
+        },
+        {
+          label: 'Validation completed',
+          timestamp: this.post.lastUpdated,
+          status: 'Success'
+        }
+      ];
+
+      if (this.post.status === 'Failed') {
+        return [
+          ...baseEvents,
+          {
+            label: 'Routing failed',
+            timestamp: this.post.lastUpdated,
+            status: 'Error'
+          }
+        ];
+      }
+
+      if (this.post.status === 'Pending') {
+        return [
+          ...baseEvents,
+          {
+            label: 'Waiting for target system',
+            timestamp: this.post.lastUpdated,
+            status: 'Warning'
+          }
+        ];
+      }
+
+      return [
+        ...baseEvents,
+        {
+          label: 'Routed to target system',
+          timestamp: this.post.lastUpdated,
+          status: 'Success'
+        },
+        {
+          label: 'Processing completed',
+          timestamp: this.post.lastUpdated,
+          status: 'Success'
+        }
+      ];
+    }
 }
