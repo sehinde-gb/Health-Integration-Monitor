@@ -32,6 +32,12 @@
     </section>
 
     <section class="mb-4">
+      @if(getTimelineOutcome(); as outcome) {
+        <div class="alert alert-light border">
+          <strong>Timeline outcome: </strong> {{ outcome.label }}
+        </div>
+      }
+
       <h6 class="border-bottom pb-2">Processing Timeline</h6>
 
       <ul class="list-group">

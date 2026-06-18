@@ -65,4 +65,13 @@ export class PostDetailsCardComponent {
         }
       ];
     }
+
+
+    getTimelineOutcome(): ProcessingEvent | undefined {
+      return this.getProcessingEvents().find(event =>
+        event.status === 'Error' ||
+        event.status === 'Warning' ||
+        event.label === 'Processing completed'
+      );
+    }
 }
