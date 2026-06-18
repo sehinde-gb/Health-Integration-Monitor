@@ -46,6 +46,46 @@
         </div>
       }
 
+
+      <div class="row mb-3">
+          <div class="col">
+            <div class="card text-center">
+              <div class="card-body">
+                <h6>Total</h6>
+                <p>{{ getTotalEvents() }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="card text-center">
+              <div class="card-body">
+                <h6>Success</h6>
+                <p>{{ getSuccessCount() }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="card text-center">
+              <div class="card-body">
+                <h6>Warnings</h6>
+                <p>{{ getWarningCount() }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="card text-center">
+              <div class="card-body">
+                <h6>Errors</h6>
+                <p>{{ getErrorCount() }}</p>
+              </div>
+            </div>
+          </div>
+      </div>
+
+
       <h6 class="border-bottom pb-2">Processing Timeline</h6>
 
       <ul class="list-group">

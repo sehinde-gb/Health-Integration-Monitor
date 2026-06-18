@@ -91,4 +91,27 @@ export class PostDetailsCardComponent {
           event.status === 'Error'
         );
     }
+
+    getTotalEvents(): number {
+      return this.getProcessingEvents().length;
+    }
+
+
+    getSuccessCount(): number {
+      return this.getProcessingEvents()
+        .filter(event => event.status === 'Success')
+        .length;
+    }
+
+    getWarningCount(): number {
+      return this.getProcessingEvents()
+        .filter(event => event.status === 'Warning')
+        .length;
+    }
+
+    getErrorCount(): number {
+      return this.getProcessingEvents()
+        .filter(event => event.status === 'Error')
+        .length;
+    }
   }
