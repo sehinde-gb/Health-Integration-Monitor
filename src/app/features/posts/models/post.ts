@@ -6,3 +6,9 @@ export interface Post {
   status: 'Processed' | 'Failed' | 'Pending';
   lastUpdated: string;
 }
+
+export interface ProcessingEvent {
+  label: string;
+  timestamp: string;
+  status: 'Success' | 'Warning' | 'Error';
+}

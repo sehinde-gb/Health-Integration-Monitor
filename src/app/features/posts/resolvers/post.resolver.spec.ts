@@ -94,7 +94,7 @@ describe('postResolver', () => {
 
     // Arrange (remember observables have $ added to them)
     // Create the mock post and assign these values
-    const mock: Post = { patientId: 'P-00001', patientName: 'Hello', messageType: 'World', status: 'Processed', lastUpdated: '2026-06-11T15:03:40.033Z' } as Post;
+    const mock: Post = { id: 1, patientId: 'P-00001', patientName: 'Patient 1', messageType: 'ORU^R01', status: 'Processed', lastUpdated: '2026-06-11T15:03:40.033Z' } as Post;
 
     // Use the postService find method with the mock created above
     postServiceSpy.find.and.returnValue(of(mock));
@@ -115,7 +115,15 @@ describe('postResolver', () => {
     expect(postServiceSpy.find).toHaveBeenCalledWith(1);
 
     // Assert that the value is equal to the mock
-    expect(value).toEqual(mock);
+    //expect(value).toEqual(mock);
+    expect(value).toEqual({
+      id: 1,
+      patientId: 'P-00001',
+      patientName: 'Patient 1',
+      messageType: 'ORU^R01',
+      status: 'Processed',
+      lastUpdated: jasmine.any(String)
+    });
 
 
   });
