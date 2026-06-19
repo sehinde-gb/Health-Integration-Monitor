@@ -81,15 +81,27 @@ export class PostDetailsCardComponent {
       this.showErrorsOnly = !this.showErrorsOnly;
     }
 
+    timelineSearchText = ' ';
+
+
     getVisibleEvents(): ProcessingEvent[] {
+      let events = this.getProcessingEvents();
 
       if(!this.showErrorsOnly) {
-        return this.getProcessingEvents();
+        events = events.filter(event =>
+          event.status === 'Error')
+
       }
 
-        return this.getProcessingEvents().filter(event =>
-          event.status === 'Error'
+      if (this.timelineSearchText.trim()) {
+        events = events.filter(event =>
+          event.label.toLowerCase().includes(this.timelineSearchText.toLowerCase().trim())
         );
+      }
+
+      return events;
+
+
     }
 
     getTotalEvents(): number {

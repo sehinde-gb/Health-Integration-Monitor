@@ -39,6 +39,14 @@
       {{ showErrorsOnly ? 'Show All Events' : 'Show Error Events' }}
     </button>
 
+    <input
+      type="text"
+      class="form-control mb-3"
+      placeholder="Search timeline events..."
+      [value]="timelineSearchText"
+      (input)="timelineSearchText = $any($event.target).value"
+    />
+    
   <section class="mb-4">
       @if(getTimelineOutcome(); as outcome) {
         <div class="alert alert-light border">
